@@ -11,6 +11,7 @@
 </head>
 <body>
   <header>
+    <canvas id="logo" width="120" height="120">Henok Ayenew logo</canvas>
     <h1>Henok</h1>
     <img src="images/profile.jpg" alt="Portrait of Henok smiling" title="Henok" width="200" height="200">
     <p>Software Engineering student and aspiring web developer.</p>
@@ -123,6 +124,9 @@
         <label for="lvl-cpp">C++</label>
         <meter id="lvl-cpp" value="0.75" min="0" max="1">75%</meter>
       </p>
+
+      <h4>Skills Bar Chart</h4>
+      <canvas id="skillsChart" width="300" height="150">Skills Bar Chart</canvas>
     </section>
 
     <section id="projects">
@@ -333,5 +337,59 @@ int main() {
     <p>&copy; 2026 Henok Ayenew. All rights reserved.</p>
     <p>Last updated: <time datetime="2026-11-05">5 November 2026</time></p>
   </footer>
+
+  <script>
+    // 1. Logo
+    const canvas = document.getElementById('logo');
+    const ctx = canvas.getContext('2d');
+    // Blue square background: x, y, width, height
+    ctx.fillStyle = "#1f5fa8";
+    ctx.fillRect(0, 0, 120, 120);
+    // White circle: centre x, centre y, radius, start angle, end angle
+    ctx.beginPath();
+    ctx.arc(60, 60, 45, 0, 2 * Math.PI);
+    ctx.fillStyle = "white";
+    ctx.fill();
+    // Initials in the middle
+    ctx.fillStyle = "#1f5fa8";
+    ctx.font = "bold 36px Arial";
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+    ctx.fillText("HA", 60, 62);
+
+    // 2. Skills Bar Chart
+    const chart = document.getElementById('skillsChart');
+    if (chart) {
+      const chartCtx = chart.getContext('2d');
+      const skills = [
+        { name: "HTML", pct: 0.8 },
+        { name: "Python", pct: 0.7 },
+        { name: "JS", pct: 0.2 },
+        { name: "C++", pct: 0.75 }
+      ];
+      const barWidth = 40;
+      const gap = 25;
+      const startX = 25;
+      const baseY = 120;
+      const maxHeight = 90;
+
+      skills.forEach((skill, index) => {
+        const x = startX + index * (barWidth + gap);
+        const h = skill.pct * maxHeight;
+        const y = baseY - h;
+
+        // Draw bar
+        chartCtx.fillStyle = "#1f5fa8";
+        chartCtx.fillRect(x, y, barWidth, h);
+
+        // Labels
+        chartCtx.fillStyle = "#333333";
+        chartCtx.font = "12px Arial";
+        chartCtx.textAlign = "center";
+        chartCtx.fillText(skill.name, x + barWidth / 2, baseY + 18);
+        chartCtx.fillText(Math.round(skill.pct * 100) + "%", x + barWidth / 2, y - 5);
+      });
+    }
+  </script>
 </body>
 </html>
